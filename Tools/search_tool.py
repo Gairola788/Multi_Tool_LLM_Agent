@@ -3,8 +3,8 @@ import requests
 
 @tool
 def search_agent(query):
-    """Search any query regarding any topic like for ex:What is meaning of Inflation,or any domain related topic,
-    args: any keyword"""
+    """Search the internet for general information or facts.
+Use this when the question requires knowledge from the web."""
     
     url = f"https://api.duckduckgo.com/?q={query}&format=json"
     

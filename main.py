@@ -5,7 +5,7 @@ from Tools.weather_tool import weather_agent
 
 from langchain.messages import AIMessage, HumanMessage, ToolMessage
 
-model = init_chat_model("llama3.2-vision", model_provider="ollama")
+model = init_chat_model("llama3.1:8b", model_provider="ollama")
 
 tools = [cal_agent, search_agent, weather_agent]
 
@@ -14,6 +14,8 @@ ToolModel = model.bind_tools(tools)
 user_input = input("Ask any query: ")
 
 ai_msg = ToolModel.invoke(user_input)
+
+print(ai_msg.tool_calls)
 
 messages = []
 messages.append(ai_msg)
