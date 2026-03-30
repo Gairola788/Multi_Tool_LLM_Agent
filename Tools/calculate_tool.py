@@ -2,5 +2,12 @@ from langchain.tools import tool
 
 @tool
 def cal_agent(expression):
-    pass
+    """"Calculate the expression including addition,subtraction,multiplication and Division,
+         args : any expression for example : 5 + 3"""
+    try:
+        result = eval(expression)
+        return f"Result: {result}"
+
+    except:
+        return "Invalid mathematical expression."
     
