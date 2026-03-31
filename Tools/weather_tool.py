@@ -7,7 +7,7 @@ load_dotenv()
 
 Weather_API_KEY = os.getenv("OPENWEATHER_API_KEY")
 
-@tool
+@tool("weather")
 def weather_agent(city):
     """Get current weather information including temperature,
 humidity, and wind speed for a given city."""

@@ -1,7 +1,7 @@
 from langchain.tools import tool
 import requests
 
-@tool
+@tool("Web search")
 def search_agent(query):
     """Search the internet for general information or facts.
 Use this when the question requires knowledge from the web."""
