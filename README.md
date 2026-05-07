@@ -1,157 +1,249 @@
-# LLM Multi Tool Agent
+🤖 Multi-Tool AI Agent
+An AI-powered multi-tool assistant built using LangChain, FastAPI, Streamlit, and Ollama.
+This project demonstrates how Large Language Models (LLMs) can intelligently interact with external tools like:
 
-## 📌 Project Overview
 
-This project implements a **Multi-Tool AI Agent powered by an LLM** that can intelligently decide which tool to use based on the user’s query.
+🧮 Calculator
 
-Instead of manually selecting tools, the **LLM analyzes the user's request and calls the appropriate tool automatically**.
 
-The agent currently supports three tools:
+🌤 Weather API
 
-* Calculator Tool
-* Weather Tool
-* Web Search Tool
 
-The system is built using **LangChain with a local LLM running through Ollama**.
+🔎 Internet Search
 
----
 
-## ⚙️ Features
+The system uses:
 
-* LLM based tool selection
-* Multi-tool architecture
-* Real-time weather data using API
-* Web search capability
-* Mathematical calculations
-* Modular tool design
 
----
+⚡ Smart routing for faster responses
 
-## 🧠 How the Agent Works
 
-User Query
-↓
-LLM analyzes the request
-↓
-LLM selects the appropriate tool
-↓
-Tool executes the task
-↓
-Result is returned to the LLM
-↓
-LLM generates the final response
+🧠 Session-based memory
 
----
 
-## 🛠️ Tech Stack
+🎨 Interactive Streamlit UI
 
-* Python
-* LangChain
-* Ollama (Local LLM)
-* OpenWeather API
-* Requests Library
-* python-dotenv
 
----
+🔄 Fallback handling for tool/API failures
 
-## 📂 Project Structure
 
-```
-LLM_MultiTool_Agent
-│
-├── main.py
-├── Tools
-│   ├── calculate_tool.py
-│   ├── weather_tool.py
-│   └── search_tool.py
-│
-├── .env
-├── requirements.txt
-└── README.md
-```
 
----
+🚀 Features
+✅ AI Tool Calling
+The LLM dynamically decides which tool to use based on the user's query.
+Examples
+User QueryTool UsedWhat is 25 * 10?Calculator ToolWhat is the weather in Delhi?Weather ToolExplain Python programmingSearch Tool
 
-## 🔧 Installation
+⚡ Smart Routing Optimization
+To reduce latency and improve speed:
 
-Clone the repository:
 
-```
-git clone <your_repo_url>
-cd LLM_MultiTool_Agent
-```
+Calculator responses skip unnecessary LLM calls
 
-Create a virtual environment:
 
-```
-python -m venv venv
-```
+Weather responses use formatted templates
 
-Activate the environment:
 
+Search responses optionally use LLM summarization
+
+
+This creates a balance between:
+
+
+⚡ Speed
+
+
+🧠 Intelligence
+
+
+💰 Cost efficiency
+
+
+
+🧠 Session-Based Memory
+The application stores conversation history using unique session_ids.
+This enables:
+
+
+Multi-user support
+
+
+Context-aware conversations
+
+
+Persistent interaction flow
+
+
+
+🌐 FastAPI Backend
+The backend exposes REST APIs for:
+
+
+Chat interactions
+
+
+Memory reset
+
+
+Agent orchestration
+
+
+
+🎨 Streamlit Frontend
+A clean and interactive chat interface built using Streamlit.
+Features:
+
+
+Chat-style UI
+
+
+Real-time interaction
+
+
+Reset conversation button
+
+
+Loading spinner
+
+
+
+🛠 Tech Stack
+TechnologyUsagePythonCore LanguageLangChainAgent + Tool CallingOllamaLocal LLM RuntimeMistral / Llama3Language ModelsFastAPIBackend FrameworkStreamlitFrontend UIOpenWeather APIWeather DataDuckDuckGo APIInternet Search
+
+🧠 System Architecture
+User  ↓Streamlit UI  ↓FastAPI Backend  ↓LangChain Agent  ↓Tool Selection  ├── 🧮 Calculator Tool  ├── 🌤 Weather Tool  └── 🔎 Search Tool  ↓Formatted Response
+
+📂 Project Structure
+LLM-Multi-Tool-Agent/│├── agent/│   └── agent.py│├── Tools/│   ├── calculate_tool.py│   ├── search_tool.py│   └── weather_tool.py│├── main.py├── streamlit_app.py├── requirements.txt├── README.md├── .gitignore└── .env
+
+⚙️ Installation Guide
+1️⃣ Clone Repository
+git clone https://github.com/your-username/LLM-Multi-Tool-Agent.gitcd LLM-Multi-Tool-Agent
+
+2️⃣ Create Virtual Environment
 Windows
+python -m venv venvvenv\Scripts\activate
+Linux / Mac
+python3 -m venv venvsource venv/bin/activate
 
-```
-venv\Scripts\activate
-```
-
-Install dependencies:
-
-```
+3️⃣ Install Dependencies
 pip install -r requirements.txt
-```
 
----
-
-## 🔑 Environment Variables
-
-Create a `.env` file in the project root and add your API key:
-
-```
+🔑 Environment Variables
+Create a .env file:
 OPENWEATHER_API_KEY=your_api_key_here
-```
 
----
+🤖 Setup Ollama
+Install Ollama:
+Ollama Official Website
+Pull model:
+ollama pull mistral
+Run Ollama server:
+ollama serve
 
-## ▶️ Running the Project
+🚀 Running the Application
+Start FastAPI Backend
+uvicorn main:app --reload
+Backend URL:
+http://127.0.0.1:8000
 
-Run the agent:
+Start Streamlit Frontend
+streamlit run streamlit_app.py
+Frontend URL:
+http://localhost:8501
 
-```
-python main.py
-```
+📌 API Endpoints
+POST /chat
+Send user query to the AI agent.
+Request
+{  "question": "What is the weather in Delhi?",  "session_id": "user123"}
+Response
+{  "response": "🌤 Weather in Delhi..."}
 
-Example interaction:
+POST /reset
+Clears memory for a specific session.
+Example:
+/reset?session_id=user123
 
-```
-Ask any query: What is the weather in Delhi?
-Ask any query: Calculate 45 * 23
-Ask any query: What does IPL stand for in cricket?
-```
+🔥 Engineering Concepts Implemented
 
----
 
-## 📖 Example Tool Usage
+Tool Calling with LangChain
 
-| User Query              | Tool Used       |
-| ----------------------- | --------------- |
-| Calculate 10 + 5        | Calculator Tool |
-| Weather in London       | Weather Tool    |
-| What is IPL in cricket? | Search Tool     |
 
----
+AI Agent Architecture
 
-## 🚀 Future Improvements
 
-* Add conversational memory
-* Integrate vector database for knowledge retrieval
-* Improve tool descriptions
-* Add more external tools
-* Build a web interface
+Session-Based Memory
 
----
 
-## 👨‍💻 Author
+Smart Routing Optimization
 
+
+API Integration
+
+
+LLM Optimization
+
+
+Error Handling & Fallbacks
+
+
+FastAPI Backend Development
+
+
+
+📸 Demo Screenshots
+Chat UI
+Add screenshot here:screenshots/chat_ui.png
+Weather Query
+Add screenshot here:screenshots/weather_demo.png
+Calculator Query
+Add screenshot here:screenshots/calculator_demo.png
+
+🚀 Future Improvements
+
+
+✅ Add RAG Pipeline
+
+
+✅ Add Vector Database (FAISS/Pinecone)
+
+
+✅ Add Authentication
+
+
+✅ Docker Deployment
+
+
+✅ Streaming Responses
+
+
+✅ Voice Assistant Integration
+
+
+✅ Cloud Deployment
+
+
+
+👨‍💻 Author
 Akshat
+B.Tech CSE (AI/ML)
+Passionate about:
 
+
+AI Engineering
+
+
+NLP
+
+
+Agentic AI
+
+
+Backend Development
+
+
+
+⭐ Support
+If you found this project useful, consider giving it a ⭐ on GitHub!
