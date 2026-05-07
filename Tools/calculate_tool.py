@@ -1,20 +1,21 @@
 from langchain.tools import tool
-
+import math
 
 @tool
-def cal_agent(expression : str) -> str:
-    """Calculate the expression including addition,subtraction,multiplication and Division,
-         args : any expression for example : 5 + 3
-         
-          Args:
-        expression: A mathematical expression, for example '5 + 3' or '3000 + 2500 + 4000'
-    
-         Returns:
-        The calculated result"""
-    try:
-        result = eval(expression)
-        return f"Result: {result}"
+def cal_agent(expression: str):
+    """Calculate a mathematical expression like '5 + 3' or '10 * 2'."""
 
-    except:
-        return "Invalid mathematical expression."
-    
+    print("Expression received:", expression)
+
+    try:
+        # ❗ Safe eval (restricted environment)
+        result = eval(
+            expression,
+            {"__builtins__": None},  # block dangerous functions
+            math.__dict__            # allow math functions if needed
+        )
+
+        return result   # ✅ return RAW result (important)
+
+    except Exception:
+        return {"error": "Invalid mathematical expression"}

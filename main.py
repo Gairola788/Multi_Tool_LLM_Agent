@@ -1,49 +1,52 @@
-from langchain.chat_models import init_chat_model
-from Tools.calculate_tool import cal_agent
-from Tools.search_tool import search_agent
-from Tools.weather_tool import weather_agent
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 
-from langchain.messages import AIMessage, HumanMessage, ToolMessage
+from agent.agent import run_agent, create_memory, trim_memory
 
-model = init_chat_model("llama3.1:8b", model_provider="ollama")
+app = FastAPI()
 
-tools = [cal_agent, search_agent, weather_agent]
+memory_store = {}
 
-ToolModel = model.bind_tools(tools)
+# ------------------ REQUEST SCHEMA ------------------
 
-user_input = input("Ask any query: ")
+class Query(BaseModel):
+    question: str
+    session_id: str = "default"
 
-ai_msg = ToolModel.invoke(user_input)
+# ------------------ API ENDPOINT ------------------
 
-print(ai_msg.tool_calls)
+@app.post("/chat")
+def chat(query: Query):
+    session_id = query.session_id
 
-messages = []
-messages.append(ai_msg)
+    try:
+        # Create memory if new session
+        if session_id not in memory_store:
+            memory_store[session_id] = create_memory()
 
-# Create tool lookup
-tool_dict = {
-    "cal_agent": cal_agent,
-    "search_agent": search_agent,
-    "weather_agent": weather_agent
-}
+        messages = memory_store[session_id]
+
+        # Run agent
+        response, messages = run_agent(query.question, messages)
+
+        # Trim memory
+        messages = trim_memory(messages, limit=8)
+
+        # Save back
+        memory_store[session_id] = messages
+
+        return {"response": response}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
-for tool_call in ai_msg.tool_calls:
+# ------------------ RESET MEMORY ------------------
 
-    tool_name = tool_call["name"]
-    tool_args = tool_call["args"]
-
-    selected_tool = tool_dict[tool_name]
-
-    tool_result = selected_tool.invoke(tool_args)
-
-    messages.append(
-        ToolMessage(
-            content=str(tool_result),
-            tool_call_id=tool_call["id"]
-        )
-    )
-
-final_response = ToolModel.invoke(messages)
-
-print(final_response.content)
+@app.post("/reset")
+def reset(session_id: str = "default"):
+    if session_id in memory_store:
+        memory_store[session_id] = create_memory()
+        return {"message": f"Memory cleared for session {session_id}"}
+    
+    return {"message": "Session not found"}
