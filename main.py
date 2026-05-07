@@ -17,9 +17,10 @@ class Query(BaseModel):
 
 @app.post("/chat")
 def chat(query: Query):
-    session_id = query.session_id
 
     try:
+        session_id = query.session_id
+
         # Create memory if new session
         if session_id not in memory_store:
             memory_store[session_id] = create_memory()
@@ -30,15 +31,23 @@ def chat(query: Query):
         response, messages = run_agent(query.question, messages)
 
         # Trim memory
-        messages = trim_memory(messages, limit=8)
+        messages = trim_memory(messages)
 
-        # Save back
+        # Save memory
         memory_store[session_id] = messages
+
+        print("FINAL RESPONSE:", response)
 
         return {"response": response}
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        import traceback
+
+        print("========== ERROR ==========")
+        traceback.print_exc()
+        print("===========================")
+
+        return {"response": f"Backend Error: {str(e)}"}
 
 
 # ------------------ RESET MEMORY ------------------
