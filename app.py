@@ -16,6 +16,48 @@ st.set_page_config(
 
 st.title("🤖 Multi Tool AI Assistant")
 
+# ------------------ SIDEBAR ------------------
+
+with st.sidebar:
+
+    st.title("🤖 AI Assistant")
+
+    st.markdown("---")
+
+    st.markdown("""
+### 🚀 Features
+
+- 🧮 Calculator Tool
+- 🌤 Weather Tool
+- 🔎 Web Search Tool
+- 🧠 Conversation Memory
+- ⚡ Groq LLM Powered
+
+""")
+
+    st.markdown("---")
+
+    st.markdown("""
+### 🛠 Tech Stack
+
+- Python
+- Streamlit
+- LangChain
+- Groq API
+- OpenWeather API
+""")
+
+    st.markdown("---")
+
+    st.info(
+        "Ask anything related to programming, "
+        "weather, calculations, or general knowledge."
+    )
+
+    st.markdown("---")
+
+    st.caption("Built with ❤️ by Akshat")
+
 # ------------------ SESSION ID ------------------
 
 if "session_id" not in st.session_state:
@@ -76,8 +118,8 @@ if user_input:
 for role, message in st.session_state.chat_history:
 
     with st.chat_message(role):
-        st.write(message)
-
+         st.markdown(message)
+         
 # ------------------ RESET BUTTON ------------------
 
 if st.button("🔄 Reset Conversation"):
