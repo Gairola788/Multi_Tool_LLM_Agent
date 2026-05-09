@@ -146,7 +146,7 @@ def run_agent(user_input: str, messages: list):
 
          else:
 
-          results.append(str(tool_result))
+          results.append(f"⚠️ {tool_result}")
 
         # ✅ Search
         elif tool_name == "search_agent":
