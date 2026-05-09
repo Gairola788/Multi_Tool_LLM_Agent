@@ -130,11 +130,23 @@ def run_agent(user_input: str, messages: list):
         # ✅ Weather
         elif tool_name == "weather_agent":
 
-            results.append(f"""
-🌤 Weather Report
+         if isinstance(tool_result, dict):
 
-{tool_result}
+          results.append(f"""
+🌤 Weather in {tool_result.get('city', 'Unknown')}
+
+🌡 Temperature: {tool_result.get('temp', 'N/A')}°C
+
+☁️ Condition: {tool_result.get('description', 'N/A')}
+
+💧 Humidity: {tool_result.get('humidity', 'N/A')}%
+
+🌬 Wind Speed: {tool_result.get('wind_speed', 'N/A')} m/s
 """)
+
+         else:
+
+          results.append(str(tool_result))
 
         # ✅ Search
         elif tool_name == "search_agent":
