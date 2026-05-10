@@ -1,6 +1,6 @@
-# 🤖 Multi-Tool AI Agent
+# 🤖 Agentic Multi-Tool AI Assistant
 
-An AI-powered multi-tool assistant built using **LangChain, FastAPI, Streamlit, and Ollama**.
+An AI-powered multi-tool assistant built using **LangChain, FastAPI, Streamlit, and Groq LLM**.
 
 This project demonstrates how Large Language Models (LLMs) can intelligently interact with external tools like:
 
@@ -13,6 +13,18 @@ The system uses:
 - 🧠 Session-based memory
 - 🎨 Interactive Streamlit UI
 - 🔄 Fallback handling for tool/API failures
+
+---
+
+## ✨ Why This Project?
+
+This project was built to understand how modern AI agents:
+- decide when to use tools,
+- manage conversational memory,
+- orchestrate APIs,
+- and dynamically generate responses.
+
+It focuses on practical AI engineering concepts rather than only building a chatbot UI.
 
 ---
 
@@ -76,6 +88,7 @@ Features:
 - Real-time interaction
 - Reset conversation button
 - Loading spinner
+- Sidebar-based UI enhancements
 
 ---
 
@@ -85,8 +98,8 @@ Features:
 |---|---|
 | Python | Core Language |
 | LangChain | Agent + Tool Calling |
-| Ollama | Local LLM Runtime |
-| Mistral / Llama3 | Language Models |
+| Groq API | LLM Inference |
+| Llama 3.1 | Language Model |
 | FastAPI | Backend Framework |
 | Streamlit | Frontend UI |
 | OpenWeather API | Weather Data |
@@ -105,7 +118,7 @@ FastAPI Backend
    ↓
 LangChain Agent
    ↓
-Tool Selection
+Tool Selection Logic
    ├── 🧮 Calculator Tool
    ├── 🌤 Weather Tool
    └── 🔎 Search Tool
@@ -118,7 +131,7 @@ Formatted Response
 # 📂 Project Structure
 
 ```bash
-LLM-Multi-Tool-Agent/
+LLM_Multi_Tool_Agent/
 │
 ├── agent/
 │   └── agent.py
@@ -127,6 +140,12 @@ LLM-Multi-Tool-Agent/
 │   ├── calculate_tool.py
 │   ├── search_tool.py
 │   └── weather_tool.py
+│
+├── assets/
+│   ├── homepage.png
+│   ├── weather.png
+│   ├── calculate.png
+│   └── memory.png
 │
 ├── main.py
 ├── streamlit_app.py
@@ -143,9 +162,9 @@ LLM-Multi-Tool-Agent/
 ## 1️⃣ Clone Repository
 
 ```bash
-git clone https://github.com/your-username/LLM-Multi-Tool-Agent.git
+git clone https://github.com/Gairola788/Multi_Tool_LLM_Agent
 
-cd LLM-Multi-Tool-Agent
+cd Multi_Tool_LLM_Agent
 ```
 
 ---
@@ -183,27 +202,8 @@ pip install -r requirements.txt
 Create a `.env` file:
 
 ```env
-OPENWEATHER_API_KEY=your_api_key_here
-```
-
----
-
-# 🤖 Setup Ollama
-
-Install Ollama:
-
-https://ollama.com
-
-Pull model:
-
-```bash
-ollama pull mistral
-```
-
-Run Ollama server:
-
-```bash
-ollama serve
+GROQ_API_KEY=your_groq_api_key
+OPENWEATHER_API_KEY=your_openweather_api_key
 ```
 
 ---
@@ -285,30 +285,33 @@ Example:
 - LLM Optimization
 - Error Handling & Fallbacks
 - FastAPI Backend Development
+- Conversational AI Systems
 
 ---
 
 # 📸 Demo Screenshots
 
-## Chat UI
+## 🖥 Chat UI
 
-Add screenshot here:
+![Homepage](assets/homepage.png)
 
-```text
-screenshots/chat_ui.png
-```
+---
 
-## Weather Query
+## 🌤 Weather Query
 
-```text
-screenshots/weather_demo.png
-```
+![Weather](assets/weather.png)
 
-## Calculator Query
+---
 
-```text
-screenshots/calculator_demo.png
-```
+## 🧮 Calculator Query
+
+![Calculator](assets/calculate.png)
+
+---
+
+## 🧠 Memory Feature
+
+![Memory](assets/memory.png)
 
 ---
 
@@ -320,6 +323,7 @@ screenshots/calculator_demo.png
 - ✅ Docker Deployment
 - ✅ Streaming Responses
 - ✅ Voice Assistant Integration
+- ✅ Resume Chat Feature
 - ✅ Cloud Deployment
 
 ---
