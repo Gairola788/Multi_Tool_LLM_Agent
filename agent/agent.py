@@ -27,7 +27,7 @@ load_dotenv()
 # )
 
 llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash-latest"",  
+    model="gemini-1.5-flash-latest",  
     google_api_key=  st.secrets["GeminiAPIKey"]
 )
 
