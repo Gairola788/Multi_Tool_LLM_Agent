@@ -1,5 +1,5 @@
 from langchain_groq import ChatGroq
-from langchain_google_genai import ChatGoogleGenerativeAI
+# from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 import os
 import streamlit as st
@@ -20,23 +20,23 @@ load_dotenv()
 
 # ------------------ MODEL ------------------
 
-# Groq Interface --> Gemini Interface
-# model = ChatGroq(
-#     groq_api_key=st.secrets["GROQ_API_KEY"],
-#     model_name="llama-3.1-8b-instant"
-# )
 
-llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash-latest",  
-    google_api_key=  st.secrets["GeminiAPIKey"]
+model = ChatGroq(
+    groq_api_key=st.secrets["GROQ_API_KEY"],
+    model_name="llama-3.1-8b-instant"
 )
+
+# llm = ChatGoogleGenerativeAI(
+#     model="gemini-1.5-flash-latest",  
+#     google_api_key=  st.secrets["GeminiAPIKey"]
+# )
 
 
 # ------------------ TOOLS ------------------
 
 tools = [cal_agent, search_agent, weather_agent]
 
-ToolModel = llm.bind_tools(tools)
+ToolModel = model.bind_tools(tools)
 
 tool_dict = {
     "cal_agent": cal_agent,
